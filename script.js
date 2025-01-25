@@ -142,6 +142,43 @@ async function undoLastMatch() {
     }
 }
 
+// 清除比赛数据
+async function clearMatchData() {
+    const adminPassword = document.getElementById('clearDataPassword').value.trim();
+
+    if (!adminPassword) {
+        alert("Please enter the admin password.");
+        return;
+    }
+
+    const confirmClear = confirm("Are you sure you want to clear all match data? This action cannot be undone.");
+    if (!confirmClear) return; // 用户取消操作
+
+    try {
+        const response = await fetch(`${apiUrl}/api/clearMatches`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ adminPassword }),
+        });
+
+        if (!response.ok) {
+            const { error } = await response.json();
+            throw new Error(error || "Failed to clear match data");
+        }
+
+        const data = await response.json();
+        console.log(data.message); // 日志：清除成功
+        alert("All match data cleared successfully.");
+        await loadPlayers(); // 重新加载玩家数据
+    } catch (error) {
+        console.error("Error clearing match data:", error);
+        alert("Failed to clear match data. Please check the password.");
+    }
+
+    // 清空密码输入框
+    document.getElementById('clearDataPassword').value = '';
+}
+
 // 页面加载时初始化
 document.addEventListener("DOMContentLoaded", () => {
     loadPlayers();
