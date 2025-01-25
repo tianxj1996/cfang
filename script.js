@@ -1,3 +1,6 @@
+const apiUrl = "https://cfang-2.onrender.com"; 
+
+
 async function loadPlayers() {
     try {
         const response = await fetch(`${apiUrl}/api/players`);
