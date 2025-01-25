@@ -26,6 +26,9 @@
         <h2>Admin Access</h2>
         <input type="password" id="adminPassword" placeholder="Enter admin password" required>
         <button onclick="verifyPassword()">Login</button>
+        <input type="text" id="newPlayerName" placeholder="Enter new player name" />
+        <button onclick="addPlayer()">Add Player</button>
+        <button onclick="undoLastMatch()">Undo Last Match</button>
 
         <div id="adminControls" style="display: none;">
             <h2>Add Match Result</h2>
