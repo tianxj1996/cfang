@@ -27,7 +27,7 @@ async function loadPlayers() {
 // 更新表格
 function updateTable(players) {
     const tableBody = document.getElementById('scoreTable').querySelector('tbody');
-    tableBody.innerHTML = '';
+    tableBody.innerHTML = ''; // 清空表格内容
     players.forEach(player => {
         const row = document.createElement('tr');
         row.innerHTML = `
@@ -38,6 +38,7 @@ function updateTable(players) {
         `;
         tableBody.appendChild(row);
     });
+    console.log("Table updated with players:", players); // 调试信息
 }
 
 // 填充下拉菜单
