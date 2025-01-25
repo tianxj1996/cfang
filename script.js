@@ -90,8 +90,9 @@ async function deletePlayer(playerId) {
 }
 
 async function addMatchResult() {
-    if (!isAdminLoggedIn) {
-        alert("Please login as admin to add match data.");
+    const adminPassword = document.getElementById('matchDataPassword').value.trim();
+    if (adminPassword !== "111111") {
+        alert("Invalid password. Cannot add match data.");
         return;
     }
 
