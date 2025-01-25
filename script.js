@@ -83,19 +83,18 @@ async function addMatchResult() {
         const response = await fetch(`${apiUrl}/api/addMatch`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ playerIndex, matchResult }), // 确保这里的数据结构正确
+            body: JSON.stringify({ playerIndex: parseInt(playerIndex), matchResult }),
         });
 
         if (response.ok) {
-            loadPlayers();
+            loadPlayers(); // 刷新玩家列表
             alert("Match result added successfully.");
         } else {
-            const errorMsg = await response.text();
-            alert(`Failed to add match result. Error: ${errorMsg}`);
+            const error = await response.json();
+            alert(`Failed to add match result. Error: ${JSON.stringify(error)}`);
         }
     } catch (error) {
         console.error("Error adding match result:", error);
-        alert("Failed to add match result.");
     }
 }
 
