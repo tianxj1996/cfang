@@ -1,16 +1,20 @@
 const apiUrl = "https://cfang-2.onrender.com";
 
 // 检查管理员密码并显示控件
+
 function verifyPassword() {
     const adminPassword = document.getElementById("adminPassword").value.trim();
     if (adminPassword === "111111") {
         alert("Admin password verified.");
         document.getElementById("adminControls").style.display = "block"; // 显示管理员控件
-        loadPlayers(); // 加载玩家列表
+        loadPlayers();
     } else {
         alert("Invalid admin password.");
     }
 }
+
+// 其他函数与之前提供的代码相同
+
 
 // 加载玩家列表
 async function loadPlayers() {
