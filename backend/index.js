@@ -1,22 +1,21 @@
 const express = require("express");
+const cors = require("cors"); // 确保启用跨域支持
 const app = express();
-const PORT = process.env.PORT || 3000; // Render 默认使用环境变量 PORT
+const PORT = process.env.PORT || 3000;
 
+// 示例玩家数据
+let players = [
+    { name: "海盗船长", matches: [], netWins: 0, winRate: 0 },
+    { name: "Sai", matches: [], netWins: 0, winRate: 0 },
+];
 
 // 中间件
+app.use(cors());
 app.use(express.json());
 
-// 示例 API 路由
-app.get("/", (req, res) => {
-    res.send("Hello, Render! Your backend is running.");
-});
-
+// 获取玩家数据
 app.get("/api/players", (req, res) => {
-    const players = [
-        { name: "海盗船长", matches: [], netWins: 0, winRate: 0 },
-        { name: "Sai", matches: [], netWins: 0, winRate: 0 },
-    ];
-    res.json(players);
+    res.json(players); // 返回 players 数据
 });
 
 // 启动服务
