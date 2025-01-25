@@ -6,11 +6,11 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // MongoDB 连接  
-mongoose
-    .connect("mongodb+srv://tianxj1996:QP2o9uaecsA81oaL@cluster0.fuspy.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0", {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-    })
+mongoose.connect("mongodb+srv://tianxj1996:QP2o9uaecsA81oaL@cluster0.mongodb.net/match-tracker?retryWrites=true&w=majority", {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    serverSelectionTimeoutMS: 30000, // 超时时间设置为 30 秒
+})
     .then(() => console.log("Connected to MongoDB"))
     .catch((error) => console.error("Error connecting to MongoDB:", error));
 
