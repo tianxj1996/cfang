@@ -9,8 +9,8 @@ const PORT = process.env.PORT || 3000;
 mongoose.connect("mongodb+srv://tianxj1996:QP2o9uaecsA81oaL@cluster0.mongodb.net/match-tracker?retryWrites=true&w=majority", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    serverSelectionTimeoutMS: 30000, // 超时时间设置为 30 秒
-})
+    family: 4, // 强制使用 IPv4
+});
     .then(() => console.log("Connected to MongoDB"))
     .catch((error) => console.error("Error connecting to MongoDB:", error));
 
