@@ -1,6 +1,9 @@
 const express = require("express");
 const app = express();
 const PORT = process.env.PORT || 3000; // Render 默认使用环境变量 PORT
+const cors = require("cors");
+app.use(cors());
+
 
 // 中间件
 app.use(express.json());
