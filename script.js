@@ -15,12 +15,12 @@ function verifyPassword() {
 async function loadPlayers() {
     try {
         const response = await fetch(`${apiUrl}/api/players`);
-        const players = await response.json();
-        console.log("Players fetched from API:", players); // 检查数据是否正确
-        updateTable(players);
-        populatePlayerSelect(players);
+        const players = await response.json(); // 解析返回的 JSON 数据
+        console.log("Players fetched from API:", players); // 调试信息
+        updateTable(players); // 更新表格
+        populatePlayerSelect(players); // 更新下拉菜单
     } catch (error) {
-        console.error("Error loading players:", error);
+        console.error("Error loading players:", error); // 捕获错误
     }
 }
 
