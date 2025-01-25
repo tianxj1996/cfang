@@ -7,7 +7,7 @@ const PORT = process.env.PORT || 3000;
 
 // MongoDB 连接  
 mongoose
-    .connect("mongodb+srv://<tianxj1996>:<QP2o9uaecsA81oaL>@cluster.mongodb.net/match-tracker", {
+    .connect("mongodb+srv://tianxj1996:QP2o9uaecsA81oaL@cluster0.fuspy.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0", {
         useNewUrlParser: true,
         useUnifiedTopology: true,
     })
