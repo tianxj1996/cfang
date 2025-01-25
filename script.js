@@ -72,9 +72,9 @@ function populatePlayerSelect(players, selectId) {
 // 添加比赛数据
 async function addMatchResult() {
     const playerIndex = document.getElementById("playerSelect").value;
-    const matchResult = parseFloat(document.getElementById("matchResult").value); // 允许任意数字
+    const matchResult = parseFloat(document.getElementById("matchResult").value);
 
-    if (!playerIndex || isNaN(matchResult)) { // 检查输入是否为数字
+    if (!playerIndex || isNaN(matchResult)) {
         alert("Invalid player or match result.");
         return;
     }
@@ -83,17 +83,19 @@ async function addMatchResult() {
         const response = await fetch(`${apiUrl}/api/addMatch`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ playerIndex, matchResult }),
+            body: JSON.stringify({ playerIndex, matchResult }), // 确保这里的数据结构正确
         });
 
         if (response.ok) {
             loadPlayers();
             alert("Match result added successfully.");
         } else {
-            alert("Failed to add match result.");
+            const errorMsg = await response.text();
+            alert(`Failed to add match result. Error: ${errorMsg}`);
         }
     } catch (error) {
         console.error("Error adding match result:", error);
+        alert("Failed to add match result.");
     }
 }
 
