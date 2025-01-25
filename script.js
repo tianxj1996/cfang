@@ -2,7 +2,7 @@ const apiUrl = "https://cfang-2.onrender.com";
 
 const cors = require("cors");
 app.use(cors({
-    origin: 'http://your-frontend-domain',
+    origin: 'http://tracker.guanjuezhijianyiyouchaju.de/',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
 }));
 
