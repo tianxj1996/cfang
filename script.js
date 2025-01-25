@@ -1,5 +1,17 @@
 const apiUrl = "https://cfang-2.onrender.com";
 
+// 检查管理员密码并显示控件
+function verifyPassword() {
+    const adminPassword = document.getElementById("adminPassword").value.trim();
+    if (adminPassword === "111111") {
+        alert("Admin password verified.");
+        document.getElementById("adminControls").style.display = "block"; // 显示管理员控件
+        loadPlayers(); // 加载玩家列表
+    } else {
+        alert("Invalid admin password.");
+    }
+}
+
 // 加载玩家列表
 async function loadPlayers() {
     try {
@@ -57,12 +69,6 @@ function populatePlayerSelect(players) {
 
 // 添加比赛数据
 async function addMatchResult() {
-    const adminPassword = document.getElementById("matchDataPassword").value.trim();
-    if (adminPassword !== "111111") {
-        alert("Invalid password. Cannot add match data.");
-        return;
-    }
-
     const playerIndex = document.getElementById("playerSelect").value;
     const matchResult = parseInt(document.getElementById("matchResult").value);
 
