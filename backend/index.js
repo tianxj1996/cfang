@@ -1,16 +1,15 @@
 const express = require("express");
-const cors = require("cors"); // 引入 CORS
+const cors = require("cors");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// 示例玩家数据
 let players = [
     { name: "海盗船长", matches: [], netWins: 0, winRate: 0 },
     { name: "Sai", matches: [], netWins: 0, winRate: 0 },
 ];
 
 // 中间件
-app.use(cors()); // 启用跨域支持
+app.use(cors());
 app.use(express.json());
 
 // 根路由
@@ -23,22 +22,50 @@ app.get("/api/players", (req, res) => {
     res.json(players);
 });
 
-app.post("/api/addMatch", (req, res) => {
-    const { playerIndex, matchResult } = req.body; // 从请求体中获取数据
-    const player = players[playerIndex]; // 根据索引找到玩家
+// 添加玩家
+app.post("/api/addPlayer", (req, res) => {
+    const { name } = req.body;
+    if (!name || players.some(player => player.name === name)) {
+        return res.status(400).json({ error: "Invalid or duplicate player name" });
+    }
 
-    // 验证数据
+    players.push({ name, matches: [], netWins: 0, winRate: 0 });
+    res.json(players);
+});
+
+// 添加比赛结果
+app.post("/api/addMatch", (req, res) => {
+    const { playerIndex, matchResult } = req.body;
+    const player = players[playerIndex];
+
     if (!player || ![1, -1].includes(matchResult)) {
         return res.status(400).json({ error: "Invalid player or match result" });
     }
 
-    // 更新玩家数据
     player.matches.push(matchResult);
     player.netWins = player.matches.reduce((sum, match) => sum + match, 0);
     const winCount = player.matches.filter(match => match === 1).length;
     player.winRate = ((winCount / player.matches.length) * 100).toFixed(2);
 
-    // 返回更新后的玩家数据
+    res.json(player);
+});
+
+// 撤销上一次输入
+app.post("/api/undoLastMatch", (req, res) => {
+    const { playerIndex } = req.body;
+    const player = players[playerIndex];
+
+    if (!player || player.matches.length === 0) {
+        return res.status(400).json({ error: "Invalid player or no matches to undo" });
+    }
+
+    player.matches.pop(); // 移除最后一次比赛结果
+    player.netWins = player.matches.reduce((sum, match) => sum + match, 0);
+    const winCount = player.matches.filter(match => match === 1).length;
+    player.winRate = player.matches.length > 0
+        ? ((winCount / player.matches.length) * 100).toFixed(2)
+        : 0;
+
     res.json(player);
 });
 
