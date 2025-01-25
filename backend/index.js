@@ -2,20 +2,19 @@ const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
 
-const mongoURI = process.env.MONGODB_URI;
-
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 // MongoDB 连接  
-mongoose.connect(mongoURI, {
+const mongoose = require("mongoose");
+
+mongoose.connect("mongodb+srv://tianxj1996:tianxj1996@cluster0.mongodb.net/match-tracker?retryWrites=true&w=majority", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    family: 4, // 强制使用 IPv4
+    serverSelectionTimeoutMS: 30000, // 超时时间设置为 30 秒
 })
     .then(() => console.log("Connected to MongoDB"))
     .catch((error) => console.error("Error connecting to MongoDB:", error));
-
 // 定义玩家模型
 const playerSchema = new mongoose.Schema({
     name: String,
