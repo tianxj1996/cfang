@@ -1,5 +1,8 @@
 const apiUrl = "https://cfang-2.onrender.com"; 
 
+const cors = require("cors");
+app.use(cors());
+
 
 async function loadPlayers() {
     try {
