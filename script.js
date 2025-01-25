@@ -1,12 +1,5 @@
 const apiUrl = "https://cfang-2.onrender.com"; 
 
-const cors = require("cors");
-app.use(cors({
-    origin: 'http://tracker.guanjuezhijianyiyouchaju.de/',
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    credentials: true
-}));
-
 
 async function loadPlayers() {
     try {
