@@ -1,22 +1,7 @@
-const apiUrl = "https://cfang-2.onrender.com"; // 替换为你的后端 URL
-
-// 验证管理员密码
-function verifyPassword() {
-    const enteredPassword = document.getElementById('adminPassword').value;
-    if (enteredPassword === "111111") {
-        alert("Access granted!");
-        document.getElementById('adminControls').style.display = 'block';
-    } else {
-        alert("Incorrect password.");
-    }
-}
-
-// 加载玩家数据
 async function loadPlayers() {
     try {
         const response = await fetch(`${apiUrl}/api/players`);
         const players = await response.json();
-        console.log("Players fetched from API:", players);
         updateTable(players);
         populatePlayerSelect(players);
     } catch (error) {
@@ -24,7 +9,6 @@ async function loadPlayers() {
     }
 }
 
-// 更新表格
 function updateTable(players) {
     const tableBody = document.getElementById('scoreTable').querySelector('tbody');
     tableBody.innerHTML = '';
@@ -40,7 +24,6 @@ function updateTable(players) {
     });
 }
 
-// 更新下拉菜单
 function populatePlayerSelect(players) {
     const playerSelect = document.getElementById('playerSelect');
     playerSelect.innerHTML = '';
@@ -52,41 +35,9 @@ function populatePlayerSelect(players) {
     });
 }
 
-// 添加比赛结果
-async function addMatchResult() {
-    const playerIndex = parseInt(document.getElementById('playerSelect').value);
-    const matchResult = parseInt(document.getElementById('matchResult').value);
-
-    if (isNaN(playerIndex) || ![1, -1].includes(matchResult)) {
-        alert("Please select a valid player and match result (1 or -1).");
-        return;
-    }
-
-    try {
-        const response = await fetch(`${apiUrl}/api/addMatch`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ playerIndex, matchResult }),
-        });
-
-        if (!response.ok) {
-            throw new Error("Failed to add match result");
-        }
-
-        await loadPlayers(); // 重新加载玩家数据
-    } catch (error) {
-        console.error("Error adding match result:", error);
-        alert("Failed to add match result.");
-    }
-
-    document.getElementById('matchResult').value = '';
-}
-
-// 添加玩家
 async function addPlayer() {
-    const newPlayerName = document.getElementById('newPlayerName').value.trim();
-
-    if (!newPlayerName) {
+    const name = document.getElementById('newPlayerName').value.trim();
+    if (!name) {
         alert("Player name cannot be empty.");
         return;
     }
@@ -95,64 +46,26 @@ async function addPlayer() {
         const response = await fetch(`${apiUrl}/api/addPlayer`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ name: newPlayerName }),
+            body: JSON.stringify({ name }),
         });
-
-        if (!response.ok) {
-            const { error } = await response.json();
-            throw new Error(error || "Failed to add player");
-        }
-
-        await loadPlayers(); // 重新加载玩家数据
-        alert(`Player "${newPlayerName}" added successfully.`);
+        const player = await response.json();
+        loadPlayers();
+        alert(`Player "${player.name}" added successfully.`);
     } catch (error) {
         console.error("Error adding player:", error);
         alert("Failed to add player.");
     }
-
-    document.getElementById('newPlayerName').value = '';
 }
 
-// 撤销上一次输入
-async function undoLastMatch() {
-    const playerIndex = parseInt(document.getElementById('playerSelect').value);
-
-    if (isNaN(playerIndex)) {
-        alert("Please select a valid player.");
-        return;
-    }
-
-    try {
-        const response = await fetch(`${apiUrl}/api/undoLastMatch`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ playerIndex }),
-        });
-
-        if (!response.ok) {
-            const { error } = await response.json();
-            throw new Error(error || "Failed to undo last match");
-        }
-
-        await loadPlayers(); // 重新加载玩家数据
-        alert("Last match result undone successfully.");
-    } catch (error) {
-        console.error("Error undoing last match:", error);
-        alert("Failed to undo last match.");
-    }
-}
-
-// 清除比赛数据
 async function clearMatchData() {
     const adminPassword = document.getElementById('clearDataPassword').value.trim();
-
     if (!adminPassword) {
         alert("Please enter the admin password.");
         return;
     }
 
-    const confirmClear = confirm("Are you sure you want to clear all match data? This action cannot be undone.");
-    if (!confirmClear) return; // 用户取消操作
+    const confirmClear = confirm("Are you sure you want to clear all match data?");
+    if (!confirmClear) return;
 
     try {
         const response = await fetch(`${apiUrl}/api/clearMatches`, {
@@ -160,26 +73,18 @@ async function clearMatchData() {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ adminPassword }),
         });
-
-        if (!response.ok) {
-            const { error } = await response.json();
-            throw new Error(error || "Failed to clear match data");
+        if (response.ok) {
+            loadPlayers();
+            alert("All match data cleared successfully.");
+        } else {
+            alert("Invalid password. Failed to clear match data.");
         }
-
-        const data = await response.json();
-        console.log(data.message); // 日志：清除成功
-        alert("All match data cleared successfully.");
-        await loadPlayers(); // 重新加载玩家数据
     } catch (error) {
         console.error("Error clearing match data:", error);
-        alert("Failed to clear match data. Please check the password.");
     }
-
-    // 清空密码输入框
-    document.getElementById('clearDataPassword').value = '';
 }
 
-// 页面加载时初始化
+// 初始化
 document.addEventListener("DOMContentLoaded", () => {
     loadPlayers();
 });
