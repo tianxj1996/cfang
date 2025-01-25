@@ -4,18 +4,97 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Match Score Tracker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        section {
+            margin: 20px auto;
+            max-width: 600px;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        table th, table td {
+            text-align: center;
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+
+        table th {
+            background-color: #f4f4f4;
+            font-weight: bold;
+        }
+
+        table td {
+            background-color: #fff;
+        }
+
+        input[type="text"], input[type="number"], input[type="password"], select, button {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        button.delete {
+            background-color: #f44336;
+        }
+
+        button.delete:hover {
+            background-color: #d32f2f;
+        }
+
+        #adminControls {
+            display: none;
+        }
+    </style>
 </head>
 <body>
     <h1>Match Score Tracker</h1>
 
+    <!-- 玩家数据表格 -->
     <table id="playerTable"></table>
 
+    <!-- 管理员访问 -->
     <section>
         <h2>Admin Access</h2>
         <input type="password" id="adminPassword" placeholder="Enter admin password" required>
         <button onclick="verifyPassword()">Login</button>
 
-        <div id="adminControls" style="display: none;">
+        <!-- 管理员控件 -->
+        <div id="adminControls">
             <h2>Add Match Result</h2>
             <select id="playerSelect"></select>
             <input type="number" id="matchResult" placeholder="Enter match result (1 or -1)" required>
@@ -27,6 +106,7 @@
         </div>
     </section>
 
+    <!-- 清除比赛数据 -->
     <section>
         <h2>Clear All Match Data</h2>
         <input type="password" id="clearDataPassword" placeholder="Enter admin password">
