@@ -69,11 +69,12 @@ function populatePlayerSelect(players, selectId) {
 }
 
 // 添加比赛数据
+// 添加比赛数据
 async function addMatchResult() {
     const playerIndex = document.getElementById("playerSelect").value;
-    const matchResult = parseInt(document.getElementById("matchResult").value);
+    const matchResult = parseFloat(document.getElementById("matchResult").value); // 允许任意数字
 
-    if (!playerIndex || ![1, -1].includes(matchResult)) {
+    if (!playerIndex || isNaN(matchResult)) { // 检查输入是否为数字
         alert("Invalid player or match result.");
         return;
     }
@@ -95,6 +96,7 @@ async function addMatchResult() {
         console.error("Error adding match result:", error);
     }
 }
+
 
 // 撤销上一场比赛
 async function undoLastMatch() {
