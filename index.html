@@ -9,21 +9,10 @@
 <body>
     <h1>Match Score Tracker</h1>
 
-    <!-- 玩家数据表格 -->
-    <section>
-        <table id="playerTable" border="1">
-            <!-- 初始表格标题 -->
-            <tr>
-                <th>Player</th>
-                <th>Matches</th>
-                <th>Win Rate (%)</th>
-                <th>Net Wins</th>
-                <th>Actions</th>
-            </tr>
-        </table>
-    </section>
+    <!-- 玩家表格 -->
+    <table id="playerTable"></table>
 
-    <!-- 管理员登录 -->
+    <!-- 添加比赛数据 -->
     <section id="adminSection">
         <h2>Add Match Data</h2>
         <input type="password" id="matchDataPassword" placeholder="Enter admin password">
@@ -32,18 +21,18 @@
         <button onclick="addMatchResult()">Add Match Result</button>
     </section>
 
-    <!-- 添加玩家 -->
+    <!-- 添加新玩家 -->
     <section>
+        <h2>Add Player</h2>
         <input type="text" id="newPlayerName" placeholder="Enter new player name">
         <button onclick="addPlayer()">Add Player</button>
-        <button onclick="undoLastMatch()">Undo Last Match</button>
     </section>
 
-    <!-- 清除所有比赛数据 -->
+    <!-- 清除比赛数据 -->
     <section>
         <h2>Clear All Match Data</h2>
-        <input type="password" id="clearPassword" placeholder="Enter admin password">
-        <button onclick="clearAllMatches()">Clear All Match Data</button>
+        <input type="password" id="clearDataPassword" placeholder="Enter admin password">
+        <button onclick="clearMatchData()">Clear All Match Data</button>
     </section>
 
     <script src="script.js"></script>
