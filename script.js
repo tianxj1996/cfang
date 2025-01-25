@@ -1,6 +1,6 @@
-const apiUrl = "https://cfang-2.onrender.com"; 
+const apiUrl = "https://cfang-2.onrender.com";
 
-
+// 加载玩家列表
 async function loadPlayers() {
     try {
         const response = await fetch(`${apiUrl}/api/players`);
@@ -34,70 +34,37 @@ async function loadPlayers() {
             `;
             playerTable.appendChild(row);
         });
+
+        // 填充下拉菜单
+        populatePlayerSelect(players);
     } catch (error) {
         console.error("Error loading players:", error);
         alert(error.message);
     }
 }
 
-function login() {
-    const adminPassword = document.getElementById('adminPassword').value.trim();
-    if (adminPassword === "111111") {
-        alert("Admin login successful.");
-        isAdminLoggedIn = true; // 设置管理员已登录
-        document.getElementById("adminSection").style.display = "block"; // 显示添加比赛数据的功能区域
-    } else {
-        alert("Invalid admin password.");
-    }
+// 填充玩家下拉菜单
+function populatePlayerSelect(players) {
+    const playerSelect = document.getElementById("playerSelect");
+    playerSelect.innerHTML = "";
+    players.forEach((player, index) => {
+        const option = document.createElement("option");
+        option.value = index;
+        option.textContent = player.name;
+        playerSelect.appendChild(option);
+    });
 }
 
-async function addPlayer() {
-    const name = document.getElementById('newPlayerName').value.trim();
-    if (!name) {
-        alert("Player name cannot be empty.");
-        return;
-    }
-
-    try {
-        const response = await fetch(`${apiUrl}/api/addPlayer`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ name }),
-        });
-        const player = await response.json();
-        loadPlayers();
-        alert(`Player "${player.name}" added successfully.`);
-    } catch (error) {
-        console.error("Error adding player:", error);
-        alert("Failed to add player.");
-    }
-}
-
-async function deletePlayer(playerId) {
-    try {
-        const response = await fetch(`${apiUrl}/api/deletePlayer/${playerId}`, {
-            method: "DELETE",
-        });
-
-        if (!response.ok) throw new Error("Failed to delete player");
-
-        alert("Player deleted successfully!");
-        loadPlayers(); // 重新加载玩家列表
-    } catch (error) {
-        console.error("Error deleting player:", error);
-        alert(error.message);
-    }
-}
-
+// 添加比赛数据
 async function addMatchResult() {
-    const adminPassword = document.getElementById('matchDataPassword').value.trim();
+    const adminPassword = document.getElementById("matchDataPassword").value.trim();
     if (adminPassword !== "111111") {
         alert("Invalid password. Cannot add match data.");
         return;
     }
 
-    const playerIndex = document.getElementById('playerSelect').value;
-    const matchResult = parseInt(document.getElementById('matchResult').value);
+    const playerIndex = document.getElementById("playerSelect").value;
+    const matchResult = parseInt(document.getElementById("matchResult").value);
 
     if (!playerIndex || ![1, -1].includes(matchResult)) {
         alert("Invalid player or match result.");
@@ -122,8 +89,49 @@ async function addMatchResult() {
     }
 }
 
+// 添加新玩家
+async function addPlayer() {
+    const name = document.getElementById("newPlayerName").value.trim();
+    if (!name) {
+        alert("Player name cannot be empty.");
+        return;
+    }
+
+    try {
+        const response = await fetch(`${apiUrl}/api/addPlayer`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ name }),
+        });
+        const player = await response.json();
+        loadPlayers();
+        alert(`Player "${player.name}" added successfully.`);
+    } catch (error) {
+        console.error("Error adding player:", error);
+        alert("Failed to add player.");
+    }
+}
+
+// 删除玩家
+async function deletePlayer(playerId) {
+    try {
+        const response = await fetch(`${apiUrl}/api/deletePlayer/${playerId}`, {
+            method: "DELETE",
+        });
+
+        if (!response.ok) throw new Error("Failed to delete player");
+
+        alert("Player deleted successfully!");
+        loadPlayers();
+    } catch (error) {
+        console.error("Error deleting player:", error);
+        alert(error.message);
+    }
+}
+
+// 清除比赛数据
 async function clearMatchData() {
-    const adminPassword = document.getElementById('clearDataPassword').value.trim();
+    const adminPassword = document.getElementById("clearDataPassword").value.trim();
     if (adminPassword !== "666666") {
         alert("Invalid password. Cannot clear match data.");
         return;
