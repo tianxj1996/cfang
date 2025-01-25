@@ -13,13 +13,16 @@
     <table id="playerTable"></table>
 
     <!-- 添加比赛数据 -->
-    <section id="adminSection">
-        <h2>Add Match Data</h2>
-        <input type="password" id="matchDataPassword" placeholder="Enter admin password">
-        <select id="playerSelect"></select>
-        <input type="number" id="matchResult" placeholder="Enter match result (1 or -1)">
-        <button onclick="addMatchResult()">Add Match Result</button>
-    </section>
+    <h2>Admin Access</h2>
+        <input type="password" id="adminPassword" placeholder="Enter admin password" required>
+        <button onclick="verifyPassword()">Login</button>
+
+        <div id="adminControls" style="display: none;">
+            <h2>Add Match Result</h2>
+            <select id="playerSelect"></select>
+            <input type="number" id="matchResult" placeholder="Enter match result (1 or -1)" required>
+            <button onclick="addMatchResult()">Add Match Result</button>
+        </div>
 
     <!-- 添加新玩家 -->
     <section>
