@@ -7,7 +7,7 @@ const PORT = process.env.PORT || 3000;
 
 // MongoDB 连接  
 
-mongoose.connect("mongodb+srv://tianxj1996:tianxj1996@cluster0.mongodb.net/match-tracker?retryWrites=true&w=majority", {
+mongoose.connect("mongodb+srv://tianxj1996:tianxj1996@cluster0.fuspy.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     serverSelectionTimeoutMS: 30000, // 超时时间设置为 30 秒
