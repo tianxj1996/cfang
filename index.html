@@ -7,40 +7,43 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Match Score Tracker</h1>
-        <table id="scoreTable">
-            <thead>
-                <tr>
-                    <th>Player</th>
-                    <th>Matches</th>
-                    <th>Win Rate (%)</th>
-                    <th>Net Wins</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Dynamic rows will be added here -->
-            </tbody>
-        </table>
+    <h1>Match Score Tracker</h1>
 
+    <!-- 玩家数据表格 -->
+    <section>
+        <table id="playerTable" border="1">
+            <!-- 初始表格标题 -->
+            <tr>
+                <th>Player</th>
+                <th>Matches</th>
+                <th>Win Rate (%)</th>
+                <th>Net Wins</th>
+                <th>Actions</th>
+            </tr>
+        </table>
+    </section>
+
+    <!-- 管理员登录 -->
+    <section>
         <h2>Admin Access</h2>
-        <input type="password" id="adminPassword" placeholder="Enter admin password" required>
-        <button onclick="verifyPassword()">Login</button>
-        <input type="text" id="newPlayerName" placeholder="Enter new player name" />
+        <input type="password" id="adminPassword" placeholder="Enter admin password">
+        <button onclick="login()">Login</button>
+    </section>
+
+    <!-- 添加玩家 -->
+    <section>
+        <input type="text" id="newPlayerName" placeholder="Enter new player name">
         <button onclick="addPlayer()">Add Player</button>
         <button onclick="undoLastMatch()">Undo Last Match</button>
+    </section>
 
+    <!-- 清除所有比赛数据 -->
+    <section>
         <h2>Clear All Match Data</h2>
-        <input type="password" id="clearDataPassword" placeholder="Enter admin password" />
-        <button onclick="clearMatchData()">Clear All Match Data</button>
+        <input type="password" id="clearPassword" placeholder="Enter admin password">
+        <button onclick="clearAllMatches()">Clear All Match Data</button>
+    </section>
 
-        <div id="adminControls" style="display: none;">
-            <h2>Add Match Result</h2>
-            <select id="playerSelect"></select>
-            <input type="number" id="matchResult" placeholder="Enter match result (1 or -1)" required>
-            <button onclick="addMatchResult()">Add Match Result</button>
-        </div>
-    </div>
     <script src="script.js"></script>
 </body>
 </html>
