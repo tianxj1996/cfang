@@ -69,6 +69,23 @@ app.post("/api/addPlayer", async (req, res) => {
     }
 });
 
+// 删除玩家
+app.delete("/api/deletePlayer/:id", async (req, res) => {
+    try {
+        const playerId = req.params.id;
+        const deletedPlayer = await Player.findByIdAndDelete(playerId);
+
+        if (!deletedPlayer) {
+            return res.status(404).json({ error: "Player not found" });
+        }
+
+        res.json({ message: "Player deleted successfully", player: deletedPlayer });
+    } catch (error) {
+        console.error("Error deleting player:", error);
+        res.status(500).json({ error: "Failed to delete player" });
+    }
+});
+
 // 添加比赛结果
 app.post("/api/addMatch", async (req, res) => {
     const { playerIndex, matchResult } = req.body;
