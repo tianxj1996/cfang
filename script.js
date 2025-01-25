@@ -1,32 +1,42 @@
-let players = [];
-
-// 设置密码
-const adminPassword = "111111";
+const apiUrl = "https://my-backend-service.onrender.com"; // 替换为你的后端 URL
 
 // 验证密码
 function verifyPassword() {
     const enteredPassword = document.getElementById('adminPassword').value;
-
-    if (enteredPassword === adminPassword) {
+    if (enteredPassword === "111111") {
         alert("Access granted!");
-        document.getElementById('adminControls').style.display = 'block'; // 显示控制部分
+        document.getElementById('adminControls').style.display = 'block';
     } else {
-        alert("Incorrect password. Access denied!");
+        alert("Incorrect password.");
     }
-
-    document.getElementById('adminPassword').value = ''; // 清空密码输入框
 }
 
-// 加载玩家数据
-async function loadPlayersData() {
-    const response = await fetch('http://localhost:3000/players');
-    players = await response.json();
-    updateTable();
-    populatePlayerSelect();
+// 获取玩家数据
+async function loadPlayers() {
+    const response = await fetch(`${apiUrl}/api/players`);
+    const players = await response.json();
+    updateTable(players);
+    populatePlayerSelect(players);
 }
 
-// 填充玩家下拉菜单
-function populatePlayerSelect() {
+// 更新表格
+function updateTable(players) {
+    const tableBody = document.getElementById('scoreTable').querySelector('tbody');
+    tableBody.innerHTML = '';
+    players.forEach(player => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${player.name}</td>
+            <td>${player.matches.length}</td>
+            <td>${player.winRate}</td>
+            <td>${player.netWins}</td>
+        `;
+        tableBody.appendChild(row);
+    });
+}
+
+// 填充下拉菜单
+function populatePlayerSelect(players) {
     const playerSelect = document.getElementById('playerSelect');
     playerSelect.innerHTML = '';
     players.forEach((player, index) => {
@@ -41,41 +51,17 @@ function populatePlayerSelect() {
 async function addMatchResult() {
     const playerIndex = document.getElementById('playerSelect').value;
     const matchResult = parseInt(document.getElementById('matchResult').value);
-
-    if (isNaN(playerIndex) || isNaN(matchResult) || ![1, -1].includes(matchResult)) {
-        alert('Please select a player and enter a valid match result (1 or -1).');
+    if (isNaN(playerIndex) || isNaN(matchResult)) {
+        alert("Invalid input");
         return;
     }
-
-    const playerId = players[playerIndex]._id;
-    const response = await fetch('http://localhost:3000/updateMatch', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ playerId, matchResult }),
+    await fetch(`${apiUrl}/api/addMatch`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ playerIndex, matchResult }),
     });
-
-    if (response.ok) {
-        await loadPlayersData();
-        document.getElementById('matchResult').value = '';
-    } else {
-        alert('Error updating match result.');
-    }
+    loadPlayers();
 }
 
-// 更新表格
-function updateTable() {
-    const tableBody = document.getElementById('scoreTable').getElementsByTagName('tbody')[0];
-    tableBody.innerHTML = '';
-
-    players.forEach((player) => {
-        const row = tableBody.insertRow();
-
-        row.insertCell(0).innerText = player.name;
-        row.insertCell(1).innerText = player.matches.length;
-        row.insertCell(2).innerText = player.winRate || '0.00';
-        row.insertCell(3).innerText = player.netWins;
-    });
-}
-
-// 页面加载时加载玩家数据
-loadPlayersData();
+// 页面加载时获取数据
+loadPlayers();
