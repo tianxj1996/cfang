@@ -1,4 +1,4 @@
-const apiUrl = "https://my-backend-service.onrender.com"; // 替换为你的后端 URL
+const apiUrl = "https://cfang-2.onrender.com"; // 替换为你的后端 URL
 
 // 验证密码
 function verifyPassword() {
