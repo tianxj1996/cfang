@@ -7,11 +7,39 @@ app.use(cors());
 async function loadPlayers() {
     try {
         const response = await fetch(`${apiUrl}/api/players`);
+        if (!response.ok) throw new Error("Failed to load players");
+
         const players = await response.json();
-        updateTable(players);
-        populatePlayerSelect(players);
+        const playerTable = document.getElementById("playerTable");
+
+        // 清空表格
+        playerTable.innerHTML = `
+            <tr>
+                <th>Player</th>
+                <th>Matches</th>
+                <th>Win Rate (%)</th>
+                <th>Net Wins</th>
+                <th>Actions</th>
+            </tr>
+        `;
+
+        // 填充玩家数据
+        players.forEach((player, index) => {
+            const row = document.createElement("tr");
+            row.innerHTML = `
+                <td>${player.name}</td>
+                <td>${player.matches.length}</td>
+                <td>${player.winRate}</td>
+                <td>${player.netWins}</td>
+                <td>
+                    <button onclick="deletePlayer('${player._id}')">Delete</button>
+                </td>
+            `;
+            playerTable.appendChild(row);
+        });
     } catch (error) {
         console.error("Error loading players:", error);
+        alert(error.message);
     }
 }
 
