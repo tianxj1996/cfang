@@ -5,9 +5,9 @@ const mongoose = require("mongoose");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// MongoDB 连接
+// MongoDB 连接  
 mongoose
-    .connect("mongodb+srv://<username>:<password>@cluster.mongodb.net/match-tracker", {
+    .connect("mongodb+srv://<tianxj1996>:<QP2o9uaecsA81oaL>@cluster.mongodb.net/match-tracker", {
         useNewUrlParser: true,
         useUnifiedTopology: true,
     })
