@@ -44,7 +44,8 @@ function login() {
     const adminPassword = document.getElementById('adminPassword').value.trim();
     if (adminPassword === "111111") {
         alert("Admin login successful.");
-        // 其他操作，例如启用管理员特权
+        isAdminLoggedIn = true; // 设置管理员已登录
+        document.getElementById("adminSection").style.display = "block"; // 显示添加比赛数据的功能区域
     } else {
         alert("Invalid admin password.");
     }
@@ -89,9 +90,8 @@ async function deletePlayer(playerId) {
 }
 
 async function addMatchResult() {
-    const adminPassword = document.getElementById('matchDataPassword').value.trim();
-    if (adminPassword !== "111111") {
-        alert("Invalid password. Cannot add match data.");
+    if (!isAdminLoggedIn) {
+        alert("Please login as admin to add match data.");
         return;
     }
 
