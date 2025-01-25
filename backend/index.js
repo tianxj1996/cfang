@@ -6,7 +6,6 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // MongoDB 连接  
-const mongoose = require("mongoose");
 
 mongoose.connect("mongodb+srv://tianxj1996:tianxj1996@cluster0.mongodb.net/match-tracker?retryWrites=true&w=majority", {
     useNewUrlParser: true,
