@@ -71,6 +71,13 @@ app.post("/api/undoLastMatch", (req, res) => {
 
 // 清除所有玩家的比赛数据
 app.post("/api/clearMatches", (req, res) => {
+    const { adminPassword } = req.body;
+
+    // 验证管理员密码
+    if (adminPassword !== "666666") {
+        return res.status(403).json({ error: "Invalid password. Access denied." });
+    }
+
     players.forEach(player => {
         player.matches = [];
         player.netWins = 0;
