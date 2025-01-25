@@ -2,15 +2,17 @@ const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
 
+const mongoURI = process.env.MONGODB_URI;
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 // MongoDB 连接  
-mongoose.connect("mongodb+srv://tianxj1996:QP2o9uaecsA81oaL@cluster0.mongodb.net/match-tracker?retryWrites=true&w=majority", {
+mongoose.connect(mongoURI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     family: 4, // 强制使用 IPv4
-});
+})
     .then(() => console.log("Connected to MongoDB"))
     .catch((error) => console.error("Error connecting to MongoDB:", error));
 
