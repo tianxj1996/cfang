@@ -1,7 +1,6 @@
 const apiUrl = "https://cfang-2.onrender.com";
 
-// 检查管理员密码并显示控件
-
+// 验证管理员密码
 function verifyPassword() {
     const adminPassword = document.getElementById("adminPassword").value.trim();
     if (adminPassword === "111111") {
@@ -12,9 +11,6 @@ function verifyPassword() {
         alert("Invalid admin password.");
     }
 }
-
-// 其他函数与之前提供的代码相同
-
 
 // 加载玩家列表
 async function loadPlayers() {
@@ -45,14 +41,15 @@ async function loadPlayers() {
                 <td>${player.winRate}</td>
                 <td>${player.netWins}</td>
                 <td>
-                    <button onclick="deletePlayer('${player._id}')">Delete</button>
+                    <button class="delete" onclick="deletePlayer('${player._id}')">Delete</button>
                 </td>
             `;
             playerTable.appendChild(row);
         });
 
-        // 填充下拉菜单
-        populatePlayerSelect(players);
+        // 更新下拉菜单
+        populatePlayerSelect(players, "playerSelect");
+        populatePlayerSelect(players, "undoPlayerSelect");
     } catch (error) {
         console.error("Error loading players:", error);
         alert(error.message);
@@ -60,8 +57,8 @@ async function loadPlayers() {
 }
 
 // 填充玩家下拉菜单
-function populatePlayerSelect(players) {
-    const playerSelect = document.getElementById("playerSelect");
+function populatePlayerSelect(players, selectId) {
+    const playerSelect = document.getElementById(selectId);
     playerSelect.innerHTML = "";
     players.forEach((player, index) => {
         const option = document.createElement("option");
@@ -96,6 +93,28 @@ async function addMatchResult() {
         }
     } catch (error) {
         console.error("Error adding match result:", error);
+    }
+}
+
+// 撤销上一场比赛
+async function undoLastMatch() {
+    const playerIndex = document.getElementById("undoPlayerSelect").value;
+
+    try {
+        const response = await fetch(`${apiUrl}/api/undoLastMatch`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ playerIndex }),
+        });
+
+        if (response.ok) {
+            loadPlayers();
+            alert("Last match undone successfully.");
+        } else {
+            alert("Failed to undo last match.");
+        }
+    } catch (error) {
+        console.error("Error undoing last match:", error);
     }
 }
 
