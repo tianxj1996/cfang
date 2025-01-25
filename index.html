@@ -24,12 +24,12 @@
     </section>
 
     <!-- 管理员登录 -->
-    <section>
-        <h2>Admin Access</h2>
-        <input type="password" id="adminPassword" placeholder="Enter admin password">
-        <button onclick="login()">Login</button>
+    <section id="adminSection" style="display: none;">
+        <h2>Add Match Data</h2>
+        <select id="playerSelect"></select>
+        <input type="number" id="matchResult" placeholder="Enter match result (1 or -1)">
+        <button onclick="addMatchResult()">Add Match Result</button>
     </section>
-
     <!-- 添加玩家 -->
     <section>
         <input type="text" id="newPlayerName" placeholder="Enter new player name">
