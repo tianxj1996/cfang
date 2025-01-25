@@ -1,5 +1,5 @@
 const express = require("express");
-const cors = require("cors"); // 确保启用跨域支持
+const cors = require("cors"); // 引入 CORS
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -10,12 +10,17 @@ let players = [
 ];
 
 // 中间件
-app.use(cors());
+app.use(cors()); // 启用跨域支持
 app.use(express.json());
+
+// 根路由
+app.get("/", (req, res) => {
+    res.send("Hello, Render! Your backend is running.");
+});
 
 // 获取玩家数据
 app.get("/api/players", (req, res) => {
-    res.json(players); // 返回 players 数据
+    res.json(players);
 });
 
 // 启动服务
