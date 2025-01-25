@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Match Score Tracker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Match Score Tracker</h1>
+        <table id="scoreTable">
+            <thead>
+                <tr>
+                    <th>Player</th>
+                    <th>Matches</th>
+                    <th>Win Rate (%)</th>
+                    <th>Net Wins</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Dynamic rows will be added here -->
+            </tbody>
+        </table>
+
+        <h2>Admin Access</h2>
+        <input type="password" id="adminPassword" placeholder="Enter admin password" required>
+        <button onclick="verifyPassword()">Login</button>
+
+        <div id="adminControls" style="display: none;">
+            <h2>Add Match Result</h2>
+            <select id="playerSelect"></select>
+            <input type="number" id="matchResult" placeholder="Enter match result (1 or -1)" required>
+            <button onclick="addMatchResult()">Add Match Result</button>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
