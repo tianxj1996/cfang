@@ -69,6 +69,16 @@ app.post("/api/undoLastMatch", (req, res) => {
     res.json(player);
 });
 
+// 清除所有玩家的比赛数据
+app.post("/api/clearMatches", (req, res) => {
+    players.forEach(player => {
+        player.matches = [];
+        player.netWins = 0;
+        player.winRate = 0;
+    });
+    res.json({ message: "All match data cleared successfully", players });
+});
+
 // 启动服务
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
