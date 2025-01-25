@@ -90,17 +90,21 @@ app.delete("/api/deletePlayer/:id", async (req, res) => {
 app.post("/api/addMatch", async (req, res) => {
     const { playerIndex, matchResult } = req.body;
 
+    if (typeof playerIndex !== "number" || typeof matchResult !== "number") {
+        return res.status(400).json({ error: "Invalid player or match result" });
+    }
+
     try {
         const players = await Player.find();
         const player = players[playerIndex];
 
-        if (!player || ![1, -1].includes(matchResult)) {
-            return res.status(400).json({ error: "Invalid player or match result" });
+        if (!player) {
+            return res.status(404).json({ error: "Player not found" });
         }
 
         player.matches.push(matchResult);
         player.netWins = player.matches.reduce((sum, match) => sum + match, 0);
-        const winCount = player.matches.filter(match => match === 1).length;
+        const winCount = player.matches.filter(match => match > 0).length;
         player.winRate = ((winCount / player.matches.length) * 100).toFixed(2);
         await player.save();
 
