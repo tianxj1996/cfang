@@ -1,7 +1,10 @@
 const apiUrl = "https://cfang-2.onrender.com"; 
 
 const cors = require("cors");
-app.use(cors());
+app.use(cors({
+    origin: 'http://your-frontend-domain',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+}));
 
 
 async function loadPlayers() {
