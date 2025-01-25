@@ -23,6 +23,25 @@ app.get("/api/players", (req, res) => {
     res.json(players);
 });
 
+app.post("/api/addMatch", (req, res) => {
+    const { playerIndex, matchResult } = req.body; // 从请求体中获取数据
+    const player = players[playerIndex]; // 根据索引找到玩家
+
+    // 验证数据
+    if (!player || ![1, -1].includes(matchResult)) {
+        return res.status(400).json({ error: "Invalid player or match result" });
+    }
+
+    // 更新玩家数据
+    player.matches.push(matchResult);
+    player.netWins = player.matches.reduce((sum, match) => sum + match, 0);
+    const winCount = player.matches.filter(match => match === 1).length;
+    player.winRate = ((winCount / player.matches.length) * 100).toFixed(2);
+
+    // 返回更新后的玩家数据
+    res.json(player);
+});
+
 // 启动服务
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
