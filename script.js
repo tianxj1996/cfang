@@ -4,6 +4,7 @@ const cors = require("cors");
 app.use(cors({
     origin: 'http://tracker.guanjuezhijianyiyouchaju.de/',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    credentials: true
 }));
 
 
