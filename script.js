@@ -40,32 +40,6 @@ async function loadPlayers() {
     }
 }
 
-function updateTable(players) {
-    const tableBody = document.getElementById('scoreTable').querySelector('tbody');
-    tableBody.innerHTML = '';
-    players.forEach(player => {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-            <td>${player.name}</td>
-            <td>${player.matches.length}</td>
-            <td>${player.winRate}</td>
-            <td>${player.netWins}</td>
-        `;
-        tableBody.appendChild(row);
-    });
-}
-
-function populatePlayerSelect(players) {
-    const playerSelect = document.getElementById('playerSelect');
-    playerSelect.innerHTML = '';
-    players.forEach((player, index) => {
-        const option = document.createElement('option');
-        option.value = index;
-        option.textContent = player.name;
-        playerSelect.appendChild(option);
-    });
-}
-
 async function addPlayer() {
     const name = document.getElementById('newPlayerName').value.trim();
     if (!name) {
@@ -104,10 +78,43 @@ async function deletePlayer(playerId) {
     }
 }
 
+async function addMatchResult() {
+    const adminPassword = document.getElementById('matchDataPassword').value.trim();
+    if (adminPassword !== "111111") {
+        alert("Invalid password. Cannot add match data.");
+        return;
+    }
+
+    const playerIndex = document.getElementById('playerSelect').value;
+    const matchResult = parseInt(document.getElementById('matchResult').value);
+
+    if (!playerIndex || ![1, -1].includes(matchResult)) {
+        alert("Invalid player or match result.");
+        return;
+    }
+
+    try {
+        const response = await fetch(`${apiUrl}/api/addMatch`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ playerIndex, matchResult }),
+        });
+
+        if (response.ok) {
+            loadPlayers();
+            alert("Match result added successfully.");
+        } else {
+            alert("Failed to add match result.");
+        }
+    } catch (error) {
+        console.error("Error adding match result:", error);
+    }
+}
+
 async function clearMatchData() {
     const adminPassword = document.getElementById('clearDataPassword').value.trim();
-    if (!adminPassword) {
-        alert("Please enter the admin password.");
+    if (adminPassword !== "666666") {
+        alert("Invalid password. Cannot clear match data.");
         return;
     }
 
@@ -124,7 +131,7 @@ async function clearMatchData() {
             loadPlayers();
             alert("All match data cleared successfully.");
         } else {
-            alert("Invalid password. Failed to clear match data.");
+            alert("Failed to clear match data.");
         }
     } catch (error) {
         console.error("Error clearing match data:", error);
