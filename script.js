@@ -40,6 +40,16 @@ async function loadPlayers() {
     }
 }
 
+function login() {
+    const adminPassword = document.getElementById('adminPassword').value.trim();
+    if (adminPassword === "111111") {
+        alert("Admin login successful.");
+        // 其他操作，例如启用管理员特权
+    } else {
+        alert("Invalid admin password.");
+    }
+}
+
 async function addPlayer() {
     const name = document.getElementById('newPlayerName').value.trim();
     if (!name) {
