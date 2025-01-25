@@ -7,7 +7,7 @@ function verifyPassword() {
     if (adminPassword === "111111") {
         alert("Admin password verified.");
         document.getElementById("adminControls").style.display = "block"; // 显示管理员控件
-        loadPlayers();
+        loadPlayers(); // 加载玩家列表
     } else {
         alert("Invalid admin password.");
     }
