@@ -63,6 +63,22 @@ async function addPlayer() {
     }
 }
 
+async function deletePlayer(playerId) {
+    try {
+        const response = await fetch(`${apiUrl}/api/deletePlayer/${playerId}`, {
+            method: "DELETE",
+        });
+
+        if (!response.ok) throw new Error("Failed to delete player");
+
+        alert("Player deleted successfully!");
+        loadPlayers(); // 重新加载玩家列表
+    } catch (error) {
+        console.error("Error deleting player:", error);
+        alert(error.message);
+    }
+}
+
 async function clearMatchData() {
     const adminPassword = document.getElementById('clearDataPassword').value.trim();
     if (!adminPassword) {
