@@ -69,10 +69,12 @@ function populatePlayerSelect(players, selectId) {
 }
 
 // 添加比赛数据
-// 添加比赛数据
 async function addMatchResult() {
     const playerIndex = document.getElementById("playerSelect").value;
     const matchResult = parseFloat(document.getElementById("matchResult").value);
+
+    // 添加日志调试
+    console.log("Adding match result:", { playerIndex, matchResult });
 
     if (!playerIndex || isNaN(matchResult)) {
         alert("Invalid player or match result.");
@@ -87,7 +89,7 @@ async function addMatchResult() {
         });
 
         if (response.ok) {
-            loadPlayers(); // 刷新玩家列表
+            loadPlayers();
             alert("Match result added successfully.");
         } else {
             const error = await response.json();
@@ -97,6 +99,7 @@ async function addMatchResult() {
         console.error("Error adding match result:", error);
     }
 }
+
 
 
 // 撤销上一场比赛
