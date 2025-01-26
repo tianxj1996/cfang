@@ -27,6 +27,17 @@ const Player = mongoose.model("Player", playerSchema);
 app.use(cors());
 app.use(express.json());
 
+app.get("/api/players", async (req, res) => {
+    try {
+        const players = await Player.find();
+        res.json(players);
+    } catch (error) {
+        console.error("Error fetching players:", error);
+        res.status(500).json({ error: "Failed to fetch players" });
+    }
+});
+
+
 // 路由示例
 app.post("/api/addMatch", async (req, res) => {
     const { playerIndex, matchResult } = req.body;
