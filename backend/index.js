@@ -90,8 +90,10 @@ app.delete("/api/deletePlayer/:id", async (req, res) => {
 app.post("/api/addMatch", async (req, res) => {
     const { playerIndex, matchResult } = req.body;
 
+    // 日志记录收到的数据
     console.log("Received data:", { playerIndex, matchResult });
 
+    // 校验数据类型
     if (typeof playerIndex !== "number" || typeof matchResult !== "number") {
         return res.status(400).json({ error: "Invalid player or match result" });
     }
@@ -104,18 +106,25 @@ app.post("/api/addMatch", async (req, res) => {
             return res.status(404).json({ error: "Player not found" });
         }
 
+        // 更新比赛数据
         player.matches.push(matchResult);
         player.netWins = player.matches.reduce((sum, match) => sum + match, 0);
+
+        // 计算胜率（正数视为胜利的比赛）
         const winCount = player.matches.filter(match => match > 0).length;
-        player.winRate = ((winCount / player.matches.length) * 100).toFixed(2);
+        player.winRate = player.matches.length > 0
+            ? ((winCount / player.matches.length) * 100).toFixed(2)
+            : 0;
+
         await player.save();
 
-        res.json(player);
+        res.json(player); // 返回更新后的玩家数据
     } catch (error) {
         console.error("Error adding match result:", error);
         res.status(500).json({ error: "Failed to add match result" });
     }
 });
+
 
 
 // 撤销上一次比赛结果
