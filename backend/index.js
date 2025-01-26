@@ -6,7 +6,7 @@ const app = express(); // 初始化 Express 应用
 const PORT = process.env.PORT || 3000;
 
 // 连接 MongoDB
-mongoose.connect("mongodb+srv://你的MongoDB连接字符串", {
+mongoose.connect("mongodb+srv://tianxj1996:tianxj1996@cluster0.fuspy.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 })
