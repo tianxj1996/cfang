@@ -1,34 +1,39 @@
+const express = require("express");
+const cors = require("cors");
+const mongoose = require("mongoose");
+
+const app = express(); // 初始化 Express 应用
+const PORT = process.env.PORT || 3000;
+
+// 连接 MongoDB
+mongoose.connect("mongodb+srv://你的MongoDB连接字符串", {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+})
+    .then(() => console.log("Connected to MongoDB"))
+    .catch((error) => console.error("Error connecting to MongoDB:", error));
+
+// 定义玩家模型
+const playerSchema = new mongoose.Schema({
+    name: String,
+    matches: [Number], // 比赛结果数组
+    netWins: Number,
+    winRate: Number,
+});
+
+const Player = mongoose.model("Player", playerSchema);
+
+// 中间件
+app.use(cors());
+app.use(express.json());
+
+// 路由示例
 app.post("/api/addMatch", async (req, res) => {
     const { playerIndex, matchResult } = req.body;
+    // 添加比赛逻辑
+});
 
-    if (typeof playerIndex !== "number" || typeof matchResult !== "number") {
-        return res.status(400).json({ error: "Invalid player or match result" });
-    }
-
-    try {
-        const players = await Player.find();
-        const player = players[playerIndex];
-
-        if (!player) {
-            return res.status(404).json({ error: "Player not found" });
-        }
-
-        const matchCount = Math.abs(Math.round(matchResult));
-        for (let i = 0; i < matchCount; i++) {
-            player.matches.push(matchResult > 0 ? 1 : -1);
-        }
-
-        player.netWins = player.matches.reduce((sum, match) => sum + match, 0);
-        const winCount = player.matches.filter(match => match > 0).length;
-        player.winRate = player.matches.length > 0
-            ? ((winCount / player.matches.length) * 100).toFixed(2)
-            : 0;
-
-        await player.save();
-
-        res.json(player);
-    } catch (error) {
-        console.error("Error adding match result:", error);
-        res.status(500).json({ error: "Failed to add match result" });
-    }
+// 启动服务器
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
 });
