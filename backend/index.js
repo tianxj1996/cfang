@@ -90,6 +90,8 @@ app.delete("/api/deletePlayer/:id", async (req, res) => {
 app.post("/api/addMatch", async (req, res) => {
     const { playerIndex, matchResult } = req.body;
 
+    console.log("Received data:", { playerIndex, matchResult });
+
     if (typeof playerIndex !== "number" || typeof matchResult !== "number") {
         return res.status(400).json({ error: "Invalid player or match result" });
     }
@@ -114,6 +116,7 @@ app.post("/api/addMatch", async (req, res) => {
         res.status(500).json({ error: "Failed to add match result" });
     }
 });
+
 
 // 撤销上一次比赛结果
 app.post("/api/undoLastMatch", async (req, res) => {
