@@ -73,14 +73,12 @@ async function addMatchResult() {
     const playerIndex = document.getElementById("playerSelect").value;
     const matchResult = parseFloat(document.getElementById("matchResult").value);
 
-    // 检查输入是否有效
     if (!playerIndex || isNaN(matchResult)) {
         alert("Invalid player or match result.");
         return;
     }
 
     try {
-        // 发送数据到后端
         const response = await fetch(`${apiUrl}/api/addMatch`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -88,7 +86,7 @@ async function addMatchResult() {
         });
 
         if (response.ok) {
-            loadPlayers(); // 刷新玩家数据
+            loadPlayers(); // 刷新玩家列表
             alert("Match result added successfully.");
         } else {
             const error = await response.json();
@@ -96,12 +94,8 @@ async function addMatchResult() {
         }
     } catch (error) {
         console.error("Error adding match result:", error);
-        alert("Failed to add match result.");
     }
 }
-
-
-
 
 // 撤销上一场比赛
 async function undoLastMatch() {
